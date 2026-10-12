@@ -29,8 +29,8 @@
 
 | 工具 | 用途 | 最新版本（截至 2026-10-12） | 前置依赖 | 链接 |
 |---|---|---|---|---|
-| **Sound Debugger** (Eigeen) | 游戏内实时记录音效事件，显示 Trigger/Event/WEM ID、所在 bank 和序号，可以重播或停止 | **v1.0.2**（Nexus 2026-02-15 更新，GitHub 提交信息为 “update 1.0.2, TU4 database”） | REFramework、CatLib | [Nexus #3246](https://www.nexusmods.com/monsterhunterwilds/mods/3246) · [GitHub](https://github.com/paean-of-guidance/sound-debugger) |
-| **MHWS Sound Tool** (Eigeen) | BNK/PCK 解包成文件夹、回包、批量转码，并通过 `replace/` 目录按 ID 或序号替换 | **v0.2.2**（Release 日期 2025-04-03）。主分支在 2025-07 合并了 PCK 修复，但还没有发新的 Release | 转码需要 Wwise Console；mp3/ogg/flac/aac 另需 ffmpeg | [GitHub Releases](https://github.com/eigeen/mhws-sound-tool/releases) · [中文文档](https://github.com/eigeen/mhws-sound-tool/blob/main/docs/README_zh-CN.md) · [踩蘑菇发布帖](https://www.caimogu.cc/post/1952570.html) |
+| **Sound Debugger 声音调试器** (Eigeen) | 游戏内实时记录音效事件，显示触发器 / 事件 / WEM 的 ID、所在音效库和序号，可以重播或停止 | **v1.0.2**（Nexus 2026-02-15 更新，GitHub 提交说明称已更新为 TU4 数据库） | REFramework、CatLib | [Nexus #3246](https://www.nexusmods.com/monsterhunterwilds/mods/3246) · [GitHub](https://github.com/paean-of-guidance/sound-debugger) |
+| **MHWS Sound Tool 荒野音效工具** (Eigeen) | BNK/PCK 解包成文件夹、回包、批量转码，并通过 `replace/` 目录按 ID 或序号替换 | **v0.2.2**（Release 日期 2025-04-03）。主分支在 2025-07 合并了 PCK 修复，但还没有发新的 Release | 转码需要 Wwise Console；mp3/ogg/flac/aac 另需 ffmpeg | [GitHub Releases](https://github.com/eigeen/mhws-sound-tool/releases) · [中文文档](https://github.com/eigeen/mhws-sound-tool/blob/main/docs/README_zh-CN.md) · [踩蘑菇发布帖](https://www.caimogu.cc/post/1952570.html) |
 | **REE Pak GUI** (Eigeen，即原 ree-pak-rs) | 从游戏 `.pak` 中解出原版 `Wp03_Cmn_m.sbnk.1.X64` | **v0.6.0**（ree-pak-rs 仓库说明：v0.3.0 以后改到 ree-pak-gui 发布） | 文件名表（.list） | [ree-pak-gui Releases](https://github.com/eigeen/ree-pak-gui/releases) · [ree-pak-rs](https://github.com/eigeen/ree-pak-rs) |
 | RingingBloom (Silvris) | 图形界面 BNK/PCK 编辑器（替代方案） | v2.1 | .NET Core 3.1；模式选 RE8 或 MHRise | [GitHub](https://github.com/Silvris/RingingBloom) |
 | wwiseutil (hpxro7) | 老牌 BNK 替换工具（替代方案） | 1.1 | — | [GitHub](https://github.com/hpxro7/wwiseutil) |
@@ -41,25 +41,25 @@
 | Fluffy Mod Manager | 可选，用来一键启用或禁用 mod | — | — | [fluffyquack.com](https://www.fluffyquack.com/) |
 
 另外两件“看起来像、其实不是”的工具：
-- [StateMusic (#4628)](https://www.nexusmods.com/monsterhunterwilds/mods/4628)：可以直接把 mp3/wav/ogg/flac 放进文件夹、在菜单里选，但**只管 BGM**（按战斗状态、怪物、区域切换），不管招式音效。【已验证】
-- [auto play rain love when just a life (#5078)](https://www.nexusmods.com/monsterhunterwilds/mods/5078)：用 REFramework 插件加外部播放器，在剩最后一乘时循环播放你的 WAV。这说明“REF 脚本监听事件，再播放外部音频”在技术上走得通。但目前**没有人把它做成“按太刀招式触发”的工具**。【已验证存在；用于太刀属于推断】
+- [StateMusic 状态音乐 (#4628)](https://www.nexusmods.com/monsterhunterwilds/mods/4628)：可以直接把 mp3/wav/ogg/flac 放进文件夹、在菜单里选，但**只管 BGM**（按战斗状态、怪物、区域切换），不管招式音效。【已验证】
+- [剩最后一条命时自动播放 rain love (#5078)](https://www.nexusmods.com/monsterhunterwilds/mods/5078)：用 REFramework 插件加外部播放器，在剩最后一乘时循环播放你的 WAV。这说明“REF 脚本监听事件，再播放外部音频”在技术上走得通。但目前**没有人把它做成“按太刀招式触发”的工具**。【已验证存在；用于太刀属于推断】
 
 ### 1.2 现成的太刀音效 mod（成品，不能自定义）
 
 下表全部来自 Nexus API 的描述和压缩包文件列表。**每一个 mod 的压缩包里都只有 `natives/STM/Sound/Wwise/Wp03_Cmn_m.sbnk.1.X64` 这一个音效文件**【已验证：#929、#642、#1240、#913、#1513、#1703、#1958、#2558、#3044 的文件列表】，所以它们两两冲突。
 
-| Mod | 版本 / 最后更新 | 替换内容（作者原话摘录） |
+| Mod（中文名 / 原名） | 版本 / 最后更新 | 替换内容（据作者说明整理） |
 |---|---|---|
-| [Sekiro Long Sword Sounds #929](https://www.nexusmods.com/monsterhunterwilds/mods/929) | 2.0.0 / 2025-03-24 | special sheathe click、foresight slash & spirit whirl slash、iai spirit slash、各种反击成功、focus strike 及 3 个随机后续、spirit combo、spirit helmbreaker、spirit release slash |
-| [Cooler Longsword Sounds #642](https://www.nexusmods.com/monsterhunterwilds/mods/642) | 1.2 / 2025-03-22 | Sheathe、Wound Attacks、Spirit Release Slash、Spirit Thrust、Helm Breaker、Spirit Charge Progression、Spirit Slash、Iai Spirit Slash |
-| [Longsword SFX Improvement #1240](https://www.nexusmods.com/monsterhunterwilds/mods/1240) | 1.21 / 2025-03-27 | GP（看破、居合）提示音混入冰原版；解放斩第三刀加入 Rise 音效 |
-| [Longsword Foresight Slash And Iai Sheathe Success Ding SFX #913](https://www.nexusmods.com/monsterhunterwilds/mods/913) | 1.0 / 2025-03-18 | 看破、居合成功的“叮” |
-| [MHW Tin sound for iai #1189](https://www.nexusmods.com/monsterhunterwilds/mods/1189) | 1.0 / 2025-03-24 | 居合、见切成功音（3 档音量） |
-| [Long Sword with Sekiro Parry Sound #2558](https://www.nexusmods.com/monsterhunterwilds/mods/2558) | 1.0 / 2025-05-26 | 居合气刃斩、看破斩 |
-| [Longsword Iai SFX - M1 Garand #3044](https://www.nexusmods.com/monsterhunterwilds/mods/3044) | 1.2 / 2025-08-12 | 特殊纳刀、居合气刃斩（另有多个可选版本） |
-| [Longsword Samurai Audio Replacement #1513](https://www.nexusmods.com/monsterhunterwilds/mods/1513) | 1.0 / 2025-04-03 | 语音类，作者列出了**逐招式对照表**（见第 3 节） |
-| [Longsword Jalter Audio Replacement #1703](https://www.nexusmods.com/monsterhunterwilds/mods/1703) | 1.0 / 2025-04-09 | 语音类 |
-| 其它：#823 NOICE、#897 WOOOW、#1898 Vergil、#3496 BBTAG、#3910 Guilty Gear（反击音）；#781、#1033、#1413、#1231、#1958、#2565、#597 等（角色语音） | — | — |
+| [只狼风太刀音效 #929](https://www.nexusmods.com/monsterhunterwilds/mods/929)<br><sub>Sekiro Long Sword Sounds</sub> | 2.0.0 / 2025-03-24 | 特殊纳刀的“咔哒”声、看破斩与气刃旋风斩（Spirit Whirl Slash）、居合拔刀气刃斩、各种反击成功音、集中攻击及其 3 种随机后续、气刃连段、气刃兜割、练气解放无双斩 |
+| [更酷的太刀音效 #642](https://www.nexusmods.com/monsterhunterwilds/mods/642)<br><sub>Cooler Longsword Sounds</sub> | 1.2 / 2025-03-22 | 收刀、伤口攻击、练气解放无双斩、气刃突刺、气刃兜割、气刃蓄力进度提示音、气刃斩、居合拔刀气刃斩 |
+| [太刀音效强化 #1240](https://www.nexusmods.com/monsterhunterwilds/mods/1240)<br><sub>Longsword SFX Improvement</sub> | 1.21 / 2025-03-27 | GP（看破、居合）提示音混入冰原版；解放斩第三刀加入崛起的音效 |
+| [看破与居合成功“叮”声 #913](https://www.nexusmods.com/monsterhunterwilds/mods/913)<br><sub>Longsword Foresight Slash And Iai Sheathe Success Ding SFX</sub> | 1.0 / 2025-03-18 | 看破、居合成功的“叮” |
+| [居合用世界版“叮”声 #1189](https://www.nexusmods.com/monsterhunterwilds/mods/1189)<br><sub>MHW Tin sound for iai</sub> | 1.0 / 2025-03-24 | 居合、见切成功音（3 档音量） |
+| [太刀只狼弹刀音 #2558](https://www.nexusmods.com/monsterhunterwilds/mods/2558)<br><sub>Long Sword with Sekiro Parry Sound</sub> | 1.0 / 2025-05-26 | 居合气刃斩、看破斩 |
+| [太刀居合 M1 加兰德步枪音效 #3044](https://www.nexusmods.com/monsterhunterwilds/mods/3044)<br><sub>Longsword Iai SFX - M1 Garand</sub> | 1.2 / 2025-08-12 | 特殊纳刀、居合气刃斩（另有多个可选版本） |
+| [太刀武士语音替换（荣耀战魂 / FGO） #1513](https://www.nexusmods.com/monsterhunterwilds/mods/1513)<br><sub>Longsword Samurai Audio Replacement</sub> | 1.0 / 2025-04-03 | 语音类，作者列出了**逐招式对照表**（见第 3 节） |
+| [太刀黑贞语音替换（FGO） #1703](https://www.nexusmods.com/monsterhunterwilds/mods/1703)<br><sub>Longsword Jalter Audio Replacement</sub> | 1.0 / 2025-04-09 | 语音类 |
+| 其它：#823 “NOICE”、#897 “WOOOW”、#1898 维吉尔、#3496 苍翼默示录 BBTAG、#3910 罪恶装备（以上为反击音）；#781、#1033、#1413、#1231、#1958、#2565、#597 等（角色语音） | — | — |
 
 **“当前是否仍可用”：**【未知 / 推断】这些 mod 大多是 2025 年 3～5 月发布的，之后没有更新。游戏后来又出了 TU1～TU4 以及 2026 年的小补丁。#1240 在踩蘑菇的发布帖标题写着“荒野最终更新可用”，作者原话是“只要 REF 可用并开启 LoosefileLoader，更新后仍可使用”，但没有给出具体版本号。**【推断】** 如果卡普空在某次更新里改过 `Wp03_Cmn_m` 的内容（增删 WEM 或改了 HIRC 结构），用旧 mod 的文件整个覆盖就可能导致新增的音效丢失或静音。所以**推荐的做法是从你当前版本的游戏里解出原版文件再改**，不要拿老 mod 的文件当底稿。
 
@@ -79,10 +79,10 @@
 3. 去训练场，一招一招地打。每发出一次声音，日志里就会出现 `Trigger ID`、`Event ID`，以及 `- <wem_id>  Wp03_Cmn_m.sbnk[<index>]`。可以点 Replay 重播确认。
 4. 把 “招式 → wem_id” 记到本目录的 [`longsword_sfx_map_template.csv`](longsword_sfx_map_template.csv) 里。
 5. 日志里有三类特殊情况要注意（Sound Debugger README 原文）：
-   - **Random sequence**：一个事件会从几个 WEM 里随机选一个播放。想让这一招每次都是你的声音，就要把这几个 WEM 全换掉。
-   - **Conditional playback**：按条件选择（例如武器材质、环境）。工具“目前取不到条件”，所以会列出所有可能。
-   - **Multiple results**：同一个触发可能对应多个 bank，常见于语音。
-6. 注意 Sound Debugger README 里的警告：“Playback some effect audio may crash your game”，即重播某些效果音可能导致游戏崩溃。
+   - **随机序列（Random sequence）**：一个事件会从几个 WEM 里随机选一个播放。想让这一招每次都是你的声音，就要把这几个 WEM 全换掉。
+   - **条件播放（Conditional playback）**：按条件选择（例如武器材质、环境）。工具“目前取不到条件”，所以会列出所有可能。
+   - **多重结果（Multiple results）**：同一个触发可能对应多个 bank，常见于语音。
+6. 注意 Sound Debugger 说明里的警告：重播某些效果音可能导致游戏崩溃。
 7. 没有 Sound Debugger 时的土办法（Suedo 的教程）：用 foobar2000 加 vgmstream 逐条试听 bank 里的音频，再把可疑的几条换成“提示音 1、2、3”，进游戏逐个出招，听听哪一招响的是哪个提示音。
 
 ---
@@ -101,17 +101,17 @@
 | 气刃蓄力 | 気刃溜め | Spirit Charge |
 | 特殊纳刀 | 特殊納刀 | Special Sheathe |
 | 居合拔刀气刃斩（俗称大居合） | 居合抜刀気刃斬り | Iai Spirit Slash |
-| 见切 / 大居合格挡成功 | カウンターに成功 | successful counter (Foresight Slash or Iai Spirit Slash) |
+| 见切 / 大居合格挡成功 | カウンターに成功 | successful counter（看破斩或居合拔刀气刃斩反击成功） |
 
 关于你列出的名称：
 - “大居合成功 / 失败”：游戏里的正式名称是**居合拔刀气刃斩**（Iai Spirit Slash）。成功指反击判定成立，此时有单独的“反击成功”提示音。从 #913、#1189、#2558 都能单独替换“居合 / 见切成功音”来看，**成功提示音是可以单独定位的**【已验证】。“失败”（没有判定成功、只出了斩击）是否有自己专属的音效，**【未知】**，需要用 Sound Debugger 实测。
-- “居合 / 灯笼开始”：游戏里对应的是**特殊纳刀**（Special Sheathe）。#929 和 #3044 都能单独替换 “special sheathe click” 或“特殊纳刀”音【已验证】。“灯笼”应该是玩家俗称，我没有找到出处。
+- “居合 / 灯笼开始”：游戏里对应的是**特殊纳刀**（Special Sheathe）。#929 和 #3044 都能单独替换特殊纳刀的“咔哒”声【已验证】。“灯笼”应该是玩家俗称，我没有找到出处。
 - “袈裟斩”：我没有在荒野的资料里找到与之对应的正式招式名。【未知】请以游戏内招式表为准，再用 Sound Debugger 实测。
-- “普通攻击 / 命中 / 未命中”：Suedo（#642 作者）说：“changing a sound in the hit sfx files mutes all other hits but the one that was changed. So, no custom hit sounds.”【已验证为作者原话】。也就是说，**打击音（命中音）实际上没法自定义**。【推断】打击音所在的 bank 并不是 `Wp03_Cmn_m`，可能在 `Wp03_Cmn` 或公共 hit 库中。大剑在 Eigeen 的测试文件里就分成 `Wp00_Cmn`、`Wp00_Cmn_Effect`、`Wp00_Cmn_m` 三个 bank。另外，#349 这类 mod 改的是 `hit_hm_cmn.sbnk.1.x64`，属于全武器共用的库。
-- 挥刀风声（未命中）和收刀：#642 写了替换 “Sheathe”，所以收刀音可以定位【已验证】。普通挥刀能否逐招式区分，【未知】。
+- “普通攻击 / 命中 / 未命中”：Suedo（#642 作者）说：“改动命中音效文件里的某一个声音后，除了被改的那个，其余命中音都会静音，所以没法自定义命中音。”【已验证，译自作者原话】。也就是说，**打击音（命中音）实际上没法自定义**。【推断】打击音所在的 bank 并不是 `Wp03_Cmn_m`，可能在 `Wp03_Cmn` 或公共 hit 库中。大剑在 Eigeen 的测试文件里就分成 `Wp00_Cmn`、`Wp00_Cmn_Effect`、`Wp00_Cmn_m` 三个 bank。另外，#349 这类 mod 改的是 `hit_hm_cmn.sbnk.1.x64`，属于全武器共用的库。
+- 挥刀风声（未命中）和收刀：#642 写了替换收刀音，所以收刀音可以定位【已验证】。普通挥刀能否逐招式区分，【未知】。
 
-**已知的共用限制【已验证，作者原话】：**
-- #929 Sekiro 作者：“the spirit roundslash, spirit iai slash and spirit whirl slash all share one sound effect so replacing one affects all three. Similarly, the focus strike pre-follow up (when player pulls down sword) and the thrust share the same sound effect.” 也就是说**气刃大回旋斩、居合拔刀气刃斩、Spirit Whirl Slash 三招共用一个音效**，集中攻击的准备动作和突刺也共用一个。
+**已知的共用限制【已验证，据作者原话】：**
+- #929 只狼音效作者（译）：“气刃大回旋斩、居合拔刀气刃斩和气刃旋风斩共用同一个音效，换一个三个都会变。同样，集中攻击后续前的动作（猎人把刀往下拉时）和突刺也共用同一个音效。”也就是说**气刃大回旋斩、居合拔刀气刃斩、气刃旋风斩三招共用一个音效**，集中攻击的准备动作和突刺也共用一个。
 - #1958 作者：“荒野的音效共用很严重”。
 - 踩蘑菇 #1240 作者：太刀**语音基本和武器音效合成在一起**，所以音效 mod 和语音 mod 无法共存。
 
@@ -174,7 +174,7 @@
 
 ## 5. 风险提示
 - 改的只是客户端本地的声音资源，不影响伤害数值。【推断】联机时其他人听不到你的音效，被检测到的风险很低，但卡普空对 mod 没有正式表态，风险请自行承担。
-- 游戏更新后，REFramework 和 Sound Debugger 的数据库可能需要等作者更新。作者原话：“Please check for mod updates promptly after the game update.” 每次大版本更新后，都建议重新提取原版 bank 并重新打包。
+- 游戏更新后，REFramework 和 Sound Debugger 的数据库可能需要等作者更新。作者提醒：“游戏更新后请及时检查 mod 更新。” 每次大版本更新后，都建议重新提取原版 bank 并重新打包。
 - 重播某些效果音可能导致游戏崩溃（Sound Debugger README）。
 - Nexus 上的 mod 基本都要求登录才能下载。
 

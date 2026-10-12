@@ -32,6 +32,12 @@ TU4_DATE = "2025-12-16"  # Title Update 4 发布日
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "mhwilds-catalog"
+# 中文译名与简介（人工/模型翻译，键为 mod ID 字符串）。新 mod 没有译文时回退到原文。
+TRANSLATIONS = OUT_DIR / "translations_zh.json"
+ZH = json.loads(TRANSLATIONS.read_text(encoding="utf-8")) if TRANSLATIONS.exists() else {}
+CATEGORY_ZH = {"Armour": "防具", "Weapons": "武器", "Gameplay": "玩法", "Characters": "角色", "Audio": "音频",
+               "Visuals": "画面", "Miscellaneous": "杂项", "Monsters": "怪物", "User Interface": "界面",
+               "Utilities": "工具", "Items": "道具", "Bodyslide": "体型", "Skills": "技能"}
 
 
 def gql(query, variables=None):
@@ -160,7 +166,7 @@ POPULAR_MIN_ENDORSEMENTS = 300
 
 SECTIONS = {
     "T": ("音频相关工具 / 框架", "做或调试音效 mod 时用得到的工具，以及能播放自定义音频的框架类 mod。"),
-    "A": ("太刀音效 / 语音", "全部列出。改同一个 bank 的 mod 互相冲突，同一时间只能启用一个。"),
+    "A": ("太刀音效 / 语音", "全部列出。改同一个音效库的 mod 互相冲突，同一时间只能启用一个。"),
     "B": ("通用战斗音效（太刀也会触发）", "相杀、反击、完美格挡/回避、会心、命中、眩晕、伤口等。改公共库（`hit_hm_cmn`、`weapon_cmn` 等）的 mod 彼此冲突。"),
     "C": ("太刀玩法 / 判定 / 手感", "非音频，与太刀相关。"),
     "D": ("太刀外观 / 模型（含多武器共用模型）", "非音频。名称里带 LS 或太刀的武器模型 mod。"),
@@ -184,17 +190,21 @@ def row(m, banks):
     url = f"https://www.nexusmods.com/{GAME_DOMAIN}/mods/{m['modId']}"
     upd = m["updatedAt"][:10]
     fresh = "✅" if upd >= TU4_DATE else ""
-    summary = md_escape(m.get("summary"))
+    zh = ZH.get(str(m["modId"]), {})
+    summary = md_escape(zh.get("summary_zh") or m.get("summary"))
     if len(summary) > 140:
         summary = summary[:137] + "…"
+    name_zh = md_escape(zh.get("name_zh"))
+    name = md_escape(m["name"])
+    title = f"[{name_zh}]({url})<br><sub>{name}</sub>" if name_zh and name_zh != name else f"[{name}]({url})"
     bank_s = "<br>".join(f"`{b.split('.')[0]}`" for b in banks[:4]) + (" …" if len(banks) > 4 else "")
     if not m.get("_preview", True):
         bank_s = "（无法预览）"
-    return (f"| [{md_escape(m['name'])}]({url}) | {md_escape(m['version'])} | {upd} {fresh} | "
+    return (f"| {title} | {md_escape(m['version'])} | {upd} {fresh} | "
             f"{fmt_num(m['endorsements'])} / {fmt_num(m['downloads'])} | {bank_s} | {summary} |")
 
 
-HEADER = "| Mod | 版本 | 最后更新 | 点赞 / 下载 | 改动的音效库 | 简介（作者原文） |\n|---|---|---|---|---|---|"
+HEADER = "| 名称（中文 / 原名） | 版本 | 最后更新 | 点赞 / 下载 | 改动的音效库 | 简介 |\n|---|---|---|---|---|---|"
 
 
 def main():
@@ -238,14 +248,17 @@ def main():
     OUT_DIR.mkdir(exist_ok=True)
     with (OUT_DIR / "mods.csv").open("w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
-        w.writerow(["section", "section_name", "mod_id", "name", "version", "created", "updated", "endorsements",
-                    "downloads", "author", "category", "banks", "archive_previewed", "url", "summary"])
+        w.writerow(["节", "节名", "mod_id", "中文名", "原名", "版本", "首发日期", "最后更新", "点赞", "下载", "作者",
+                    "Nexus分类", "改动的音效库", "可预览压缩包", "链接", "中文简介", "原文简介"])
         for sec in SECTIONS:
             for m, banks in sorted(groups[sec], key=lambda x: -x[0]["endorsements"]):
-                w.writerow([sec, SECTIONS[sec][0], m["modId"], m["name"], m["version"], m["createdAt"][:10],
-                            m["updatedAt"][:10], m["endorsements"], m["downloads"], m["author"],
-                            (m.get("modCategory") or {}).get("name"), " ".join(banks), m["_preview"],
-                            f"https://www.nexusmods.com/{GAME_DOMAIN}/mods/{m['modId']}", (m.get("summary") or "").replace("\n", " ")])
+                zh = ZH.get(str(m["modId"]), {})
+                cat_en = (m.get("modCategory") or {}).get("name") or ""
+                w.writerow([sec, SECTIONS[sec][0], m["modId"], zh.get("name_zh", ""), m["name"], m["version"],
+                            m["createdAt"][:10], m["updatedAt"][:10], m["endorsements"], m["downloads"], m["author"],
+                            CATEGORY_ZH.get(cat_en, cat_en), " ".join(banks), "是" if m["_preview"] else "否",
+                            f"https://www.nexusmods.com/{GAME_DOMAIN}/mods/{m['modId']}", zh.get("summary_zh", ""),
+                            (m.get("summary") or "").replace("\n", " ")])
 
     total = sum(len(v) for v in groups.values())
     lines = [
@@ -259,8 +272,8 @@ def main():
         "",
         "**怎么看：**",
         f"- 最后更新带 ✅ 表示在 TU4（{TU4_DATE}）之后更新过，在当前版本可用的概率更高；没有 ✅ 的不代表不能用，但要看评论区确认。",
-        "- “改动的音效库”是从压缩包文件列表读出来的 Wwise bank 文件名（`natives/STM/Sound/Wwise/` 下）。**同一个 bank 只能有一个 mod 生效**，后装的会覆盖先装的。",
-        "- 几乎所有音频 mod 都需要 [REFramework](https://www.nexusmods.com/monsterhunterwilds/mods/93) 并开启 Loose File Loader；推荐用 [Fluffy Mod Manager](https://www.fluffyquack.com/) 管理。",
+        "- “改动的音效库”是从压缩包文件列表读出来的音效库文件名（Wwise 音频包，位于 `natives/STM/Sound/Wwise/`）。**同一个音效库只能有一个 mod 生效**，后装的会覆盖先装的。",
+        "- 几乎所有音频 mod 都需要 [REFramework](https://www.nexusmods.com/monsterhunterwilds/mods/93) 并在其菜单中勾选 Enable Loose File Loader（散件加载）；推荐用 [Fluffy Mod Manager](https://www.fluffyquack.com/) 管理。",
         "- “（无法预览）”：Nexus 对较新上传的文件换了存储路径，公开接口读不到压缩包内容，改了哪个库只能下载后自己看。",
         "- 每节内按点赞数从高到低排序。",
         "",
